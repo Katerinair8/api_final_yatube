@@ -1,12 +1,16 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
+# from rest_framework.validators import UniqueTogetherValidator
 
-
-from posts.models import Comment, Post
+from posts.models import Comment, Post, Follow, Group, User
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(slug_field='username', read_only=True)
+    author = SlugRelatedField(
+        slug_field='username',
+        read_only=True
+        )
 
     class Meta:
         fields = '__all__'
@@ -15,9 +19,40 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True, slug_field='username'
+        default=get_user_model(),
+        read_only=True,
+        slug_field='username'
     )
+    post = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         fields = '__all__'
         model = Comment
+        read_only_fields = ('created', 'post',)
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(
+        slug_field='username',
+        read_only=True
+    )
+    following = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='username'
+    )
+
+    class Meta:
+        fields = ('user', 'following',)
+        model = Follow
+
+        def validate(self, data):
+            if self.context['request'].user == data['following']:
+                raise serializers.ValidationError('Невозможно подписаться на самого себя!')
+            return data
+
+
+class GroupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        fields = '__all__'
