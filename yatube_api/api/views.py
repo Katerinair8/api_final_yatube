@@ -25,7 +25,6 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AllowAny,)
 
 
-
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = (AuthorOrReadOnly,)
