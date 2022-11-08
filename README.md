@@ -33,8 +33,10 @@ python3 manage.py runserver
 
 ### Создание публикаций
 
-Запрос
+Запрос POST на эндпоинт ```http://127.0.0.1:8000/api/v1/posts/```
 ```
+Payload:
+
 {
   "text": "string_test",
 }
@@ -72,8 +74,10 @@ http://127.0.0.1:8000/api/v1/posts/1/
 ```
 ### Проверить JWT-токен
 
-Запрос
+Запрос POST на эндпоинт ```http://127.0.0.1:8000/api/v1/jwt/verify/```
 ```
+Payload:
+
 {
   "token: "string",
 }
