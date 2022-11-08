@@ -29,3 +29,60 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
+# Примеры запросов к API
+
+### Создание публикаций
+
+Запрос
+```
+{
+  "text": "string_test",
+}
+```
+
+Ответ
+```
+{
+    "id": 1,
+    "author": "admin",
+    "text": "string_test",
+    "pub_date": "2022-11-08T09:21:50.288509Z",
+    "image": null,
+    "group": null
+}
+```
+
+### Получение публикации по id
+
+Запрос GET
+```
+http://127.0.0.1:8000/api/v1/posts/1/
+```
+
+Ответ
+```
+{
+    "id": 1,
+    "author": "admin",
+    "text": "string_test",
+    "pub_date": "2022-11-08T09:21:50.288509Z",
+    "image": null,
+    "group": null
+}
+```
+### Проверить JWT-токен
+
+Запрос
+```
+{
+  "token: "string",
+}
+```
+
+Ответ
+```
+{
+    "detail": "Token is invalid or expired",
+    "code": "token_not_valid"
+}
+```
