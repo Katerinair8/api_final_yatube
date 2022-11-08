@@ -83,7 +83,7 @@ Payload:
 }
 ```
 
-Ответ
+Ответ ```Error 401```
 ```
 {
     "detail": "Token is invalid or expired",
